@@ -7,10 +7,7 @@ livros_table = 'lojaLivros'
 def lambda_handler(event, context):
     print(f'Evento: {event}')
     
-    id = event['livro_id']
-    
-    
-    response = get_livros(id)
+    response = get_livros()
     
     livros_ids = []
     
@@ -18,23 +15,11 @@ def lambda_handler(event, context):
         new_response = deep_clean_field(item)
         livros_ids.append(new_response)
     
-    return {
-        'statusCode': 200,
-        'message': livros_ids
-    }
+    return livros_ids
 
-def get_livros(livro_id):
-    response = client.query(
+def get_livros():
+    response = client.scan(
         TableName=livros_table,
-        KeyConditionExpression='#livro_id = :livro_id',
-        ExpressionAttributeNames={
-            '#livro_id': 'livro_id'
-        },
-        ExpressionAttributeValues={
-            ':livro_id': {
-                'S': livro_id
-            }
-        }
     )
     
     items = response['Items']

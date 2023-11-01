@@ -8,13 +8,15 @@ def lambda_handler(event, context):
     print(f"Evento: {event}")
     
     id = event['livro_id']
-    nome = event['nome']
-    classificacao = event['classificação']
+    titulo = event['titulo']
+    edicao = event['edicao']
+    autor = event['autor']
     
     raw_dict = {
         'livro_id': {'S': id},
-        'nome': {'S': nome},
-        'classificacao': {'N': f'{classificacao}'}
+        'titulo': {'S': titulo},
+        'edicao': {'N': f'{edicao}'},
+        'autor': {'N': f'{autor}'}
     }
     
     response = creating_item_ddb(raw_dict)

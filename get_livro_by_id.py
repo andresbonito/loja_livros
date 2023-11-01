@@ -10,6 +10,8 @@ def lambda_handler(event, context):
     id = event['id']
 
     response = get_livros(id)
+    print(response)
+    
     
     livros_ids = []
     
@@ -17,10 +19,8 @@ def lambda_handler(event, context):
         new_response = deep_clean_field(item)
         livros_ids.append(new_response)
     
-    return {
-        'statusCode': 200,
-        'message': livros_ids
-    }
+    return livros_ids[0]
+
 
 def get_livros(livro_id):
     response = client.query(
